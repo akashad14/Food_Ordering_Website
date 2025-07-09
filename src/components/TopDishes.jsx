@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useCart } from '../pages/CartContext';
+
 
 const dishes = [
   {
@@ -60,7 +62,12 @@ const dishes = [
 ];
 
 export default function TopDishes({ selectedCategory }) {
-  const [quantities, setQuantities] = useState(Array(dishes.length).fill(0));
+  const { cartItems, addToCart, updateQuantity, removeFromCart } = useCart();
+
+  const getQuantityFromCart = (name) => {
+    const item = cartItems.find((item) => item.name === name);
+    return item ? item.quantity : 0;
+  };
 
   const filteredDishes =
     selectedCategory === "All"
@@ -69,16 +76,24 @@ export default function TopDishes({ selectedCategory }) {
           dish.name.toLowerCase().includes(selectedCategory.toLowerCase())
         );
 
-  const increase = (index) => {
-    const updated = [...quantities];
-    updated[index]++;
-    setQuantities(updated);
+  const increase = (dish) => {
+    const existing = cartItems.find((item) => item.name === dish.name);
+    if (existing) {
+      updateQuantity(dish.name, existing.quantity + 1);
+    } else {
+      addToCart(dish);
+    }
   };
 
-  const decrease = (index) => {
-    const updated = [...quantities];
-    if (updated[index] > 0) updated[index]--;
-    setQuantities(updated);
+  const decrease = (dish) => {
+    const existing = cartItems.find((item) => item.name === dish.name);
+    if (existing) {
+      if (existing.quantity > 1) {
+        updateQuantity(dish.name, existing.quantity - 1);
+      } else {
+        removeFromCart(dish.name);
+      }
+    }
   };
 
   return (
@@ -86,41 +101,44 @@ export default function TopDishes({ selectedCategory }) {
       <div className="max-w-7xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-semibold mb-8">Top dishes near you</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredDishes.map((dish, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
-            >
-              <img
-                src={dish.image}
-                alt={dish.name}
-                className="w-full h-52 object-cover"
-              />
-              <div className="p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <button
-                    onClick={() => decrease(index)}
-                    className="w-7 h-7 flex items-center justify-center rounded-full bg-red-100 text-red-500 hover:bg-red-200"
-                  >
-                    –
-                  </button>
-                  <span>{quantities[index]}</span>
-                  <button
-                    onClick={() => increase(index)}
-                    className="w-7 h-7 flex items-center justify-center rounded-full bg-green-100 text-green-600 hover:bg-green-200"
-                  >
-                    +
-                  </button>
+          {filteredDishes.map((dish, index) => {
+            const cartQty = getQuantityFromCart(dish.name);
+            return (
+              <div
+                key={index}
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              >
+                <img
+                  src={dish.image}
+                  alt={dish.name}
+                  className="w-full h-52 object-cover"
+                />
+                <div className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <button
+                      onClick={() => decrease(dish)}
+                      className="w-7 h-7 flex items-center justify-center rounded-full bg-red-100 text-red-500 hover:bg-red-200"
+                    >
+                      –
+                    </button>
+                    <span>{cartQty}</span>
+                    <button
+                      onClick={() => increase(dish)}
+                      className="w-7 h-7 flex items-center justify-center rounded-full bg-green-100 text-green-600 hover:bg-green-200"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <h3 className="text-lg font-semibold">{dish.name}</h3>
+                  <div className="flex items-center text-orange-400 text-sm mb-1">
+                    {"★".repeat(dish.rating)}{"☆".repeat(5 - dish.rating)}
+                  </div>
+                  <p className="text-gray-600 text-sm">{dish.description}</p>
+                  <p className="text-orange-600 font-semibold mt-2">${dish.price}</p>
                 </div>
-                <h3 className="text-lg font-semibold">{dish.name}</h3>
-                <div className="flex items-center text-orange-400 text-sm mb-1">
-                  {"★".repeat(dish.rating)}{"☆".repeat(5 - dish.rating)}
-                </div>
-                <p className="text-gray-600 text-sm">{dish.description}</p>
-                <p className="text-orange-600 font-semibold mt-2">${dish.price}</p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
