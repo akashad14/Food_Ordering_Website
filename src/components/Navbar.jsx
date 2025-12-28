@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { FaSearch, FaShoppingBasket, FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Signup from "./Signup";
-import { useCart } from "../pages/CartContext"
-
+import { useCart } from "../pages/CartContext";
 
 export default function Navbar() {
   const { cartItems } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showSignIn, setShowSignIn] = useState(false);
-  
+  const navigate = useNavigate();
+  // const [showSignIn, setShowSignIn] = useState(false);
+
   const totalCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
@@ -40,33 +40,34 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           <FaSearch className="text-xl text-gray-600 cursor-pointer" />
           <Link to="/Cart" className="relative">
-          <FaShoppingBasket className="text-2xl text-gray-700 cursor-pointer" />
-          {totalCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-              {totalCount}
-            </span>
-          )}
-        </Link>
+            <FaShoppingBasket className="text-2xl text-gray-700 cursor-pointer" />
+            {totalCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {totalCount}
+              </span>
+            )}
+          </Link>
           <button
             className="border border-gray-400 px-4 py-1 rounded-full text-sm text-gray-800 hover:bg-gray-100"
-            onClick={() => setShowSignIn(true)}
+            onClick={() => navigate("/signup")}
           >
-            sign in
+            Sign In
           </button>
 
           {/* Signup Modal */}
-          {showSignIn && (
+          {/* {showSignIn && (
             <div className="fixed inset-0  flex items-center justify-center z-50">
               <button
                 className="absolute top-2 right-3 text-2xl font-bold text-gray-600 hover:text-black"
                 onClick={() => setShowSignIn(false)}
+                x
               >
                 &times;
               </button>
 
               <Signup />
             </div>
-          )}
+          )} */}
         </div>
 
         {/* Hamburger Icon */}
@@ -94,8 +95,14 @@ export default function Navbar() {
             <FaSearch className="text-xl text-gray-600 cursor-pointer" />
             <FaShoppingBasket className="text-xl text-gray-600 cursor-pointer" />
 
-            <button className="border border-gray-400 px-4 py-1 rounded-full text-sm text-gray-800 hover:bg-gray-100">
-              sign in
+            <button
+              onClick={() => {
+                navigate("/signup");
+                setMenuOpen(false);
+              }}
+              className="border border-gray-400 px-4 py-1 rounded-full text-sm text-gray-800 hover:bg-gray-100"
+            >
+              Sign In
             </button>
           </div>
         </div>
