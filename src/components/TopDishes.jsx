@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useCart } from "../pages/CartContext";
-import { useNavigate } from "react-router-dom";  // ✅ Import navigation
+import { useNavigate } from "react-router-dom";
 
 const dishes = [
   {
@@ -20,7 +20,7 @@ const dishes = [
       "Food provides essential nutrients for overall health and well-being",
   },
   {
-    name: "desert",
+    name: "Desert",
     image: "/fooditem/dish3.jpg",
     price: 16,
     rating: 4,
@@ -71,10 +71,17 @@ const dishes = [
 
 export default function TopDishes({ selectedCategory }) {
   const { cartItems, addToCart, updateQuantity, removeFromCart } = useCart();
-  const navigate = useNavigate(); // ✅ Hook for navigation
+  const navigate = useNavigate();
 
+  // ✅ LOGIN STATE (single source of truth)
+  const isLoggedIn =
+    !!localStorage.getItem("token") &&
+    !!localStorage.getItem("user");
+
+  // ✅ Quantity resolver (forces 0 if logged out)
   const getQuantityFromCart = (name) => {
-    const item = cartItems.find((item) => item.name === name);
+    if (!isLoggedIn) return 0;
+    const item = cartItems.find((i) => i.name === name);
     return item ? item.quantity : 0;
   };
 
@@ -85,26 +92,41 @@ export default function TopDishes({ selectedCategory }) {
           dish.name.toLowerCase().includes(selectedCategory.toLowerCase())
         );
 
-  const redirect = (dish) => {
-    // const existing = cartItems.find((item) => item.name === dish.name);
-    // if (existing) {
-    //   updateQuantity(dish.name, existing.quantity + 1);
-    // } else {
-    //   addToCart(dish);
-    // }
+  // ✅ Add / Increase
+  const handleAdd = (dish) => {
+    if (!isLoggedIn) {
+      navigate("/signup");
+      return;
+    }
 
-    // ✅ After adding to cart → navigate to sign in
-    navigate("/Signup");
+    const existing = cartItems.find(
+      (item) => item.name === dish.name
+    );
+
+    if (existing) {
+      updateQuantity(dish.name, existing.quantity + 1);
+    } else {
+      addToCart(dish);
+    }
   };
 
-  const decrease = (dish) => {
-    const existing = cartItems.find((item) => item.name === dish.name);
-    if (existing) {
-      if (existing.quantity > 1) {
-        updateQuantity(dish.name, existing.quantity - 1);
-      } else {
-        removeFromCart(dish.name);
-      }
+  // ✅ Decrease / Remove
+  const handleDecrease = (dish) => {
+    if (!isLoggedIn) {
+      navigate("/signup");
+      return;
+    }
+
+    const existing = cartItems.find(
+      (item) => item.name === dish.name
+    );
+
+    if (!existing) return;
+
+    if (existing.quantity > 1) {
+      updateQuantity(dish.name, existing.quantity - 1);
+    } else {
+      removeFromCart(dish.name);
     }
   };
 
@@ -114,42 +136,63 @@ export default function TopDishes({ selectedCategory }) {
         <h2 className="text-2xl md:text-3xl font-semibold mb-8">
           Top dishes near you
         </h2>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredDishes.map((dish, index) => {
             const cartQty = getQuantityFromCart(dish.name);
+
             return (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <img
                   src={dish.image}
                   alt={dish.name}
                   className="w-full h-52 object-cover"
                 />
+
                 <div className="p-4">
+                  {/* Quantity Controls */}
                   <div className="flex items-center gap-2 mb-2">
                     <button
                       type="button"
-                      onClick={() => decrease(dish)}
-                      className="w-7 h-7 flex items-center justify-center rounded-full bg-red-100 text-red-500 hover:bg-red-200"
+                      disabled={!isLoggedIn || cartQty === 0}
+                      onClick={() => handleDecrease(dish)}
+                      className={`w-7 h-7 flex items-center justify-center rounded-full
+                        ${
+                          cartQty === 0 || !isLoggedIn
+                            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                            : "bg-red-100 text-red-500 hover:bg-red-200"
+                        }`}
                     >
                       –
                     </button>
+
                     <span>{cartQty}</span>
+
                     <button
                       type="button"
-                      onClick={() => redirect(dish)}
+                      onClick={() => handleAdd(dish)}
                       className="w-7 h-7 flex items-center justify-center rounded-full bg-green-100 text-green-600 hover:bg-green-200"
                     >
                       +
                     </button>
                   </div>
-                  <h3 className="text-lg font-semibold">{dish.name}</h3>
+
+                  <h3 className="text-lg font-semibold">
+                    {dish.name}
+                  </h3>
+
                   <div className="flex items-center text-orange-400 text-sm mb-1">
-                    {"★".repeat(dish.rating)}{"☆".repeat(5 - dish.rating)}
+                    {"★".repeat(dish.rating)}
+                    {"☆".repeat(5 - dish.rating)}
                   </div>
-                  <p className="text-gray-600 text-sm">{dish.description}</p>
+
+                  <p className="text-gray-600 text-sm">
+                    {dish.description}
+                  </p>
+
                   <p className="text-orange-600 font-semibold mt-2">
                     ${dish.price}
                   </p>
