@@ -4,10 +4,10 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = "http://localhost:2025/auth";
 
 const Signup = () => {
   const [isSignup, setIsSignup] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -16,7 +16,7 @@ const Signup = () => {
       email: "",
       password: "",
     },
-    enableReinitialize: true,
+
     validationSchema: Yup.object({
       name: isSignup
         ? Yup.string().min(2, "Too short").required("Name is required")
@@ -26,161 +26,132 @@ const Signup = () => {
         .min(6, "Min 6 characters")
         .required("Password is required"),
     }),
+
     onSubmit: async (values, { resetForm }) => {
       try {
         const url = isSignup
-          ? "http://localhost:2025/api/signup"
-          : "http://localhost:2025/api/login";
+          ? `${API_BASE_URL}/signup`
+          : `${API_BASE_URL}/login`;
 
-        const response = await axios.post(url, values);
+        const payload = isSignup
+          ? values
+          : { email: values.email, password: values.password };
 
-        console.log("Success:", response.data);
-        alert(`${isSignup ? "Signup" : "Signin"} Successful!`);
-        resetForm();
+        const response = await axios.post(url, payload, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
         if (isSignup) {
-          setIsSignup(false); // show login form
+          alert("Signup successful. Please login.");
+          setIsSignup(false);
+          resetForm();
         } else {
-          navigate("/"); // redirect to home
+          const { token, user } = response.data;
+
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(user));
+
+          navigate("/");
         }
       } catch (error) {
-        console.error("API Error:", error.response?.data || error.message);
-        alert("Something went wrong. Please try again.");
+        const message =
+          error.response?.data?.message || "Server error. Try again.";
+        alert(message);
       }
     },
   });
 
-  if (!isOpen) return null;
-
   return (
     <div
-      className="relative overflow-hidden w-full h-[500px] md:h-full bg-cover bg-center flex items-center"
-      style={{
-        backgroundImage: "url('/signup-bg.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className="min-h-screen w-full bg-cover bg-center flex items-center justify-center px-4"
+      style={{ backgroundImage: "url('/signup-bg.jpg')" }}
     >
-      {/* Close Button */}
       <button
-        onClick={() => setIsOpen(false)}
-        className="absolute top-3 right-3 text-2xl font-bold text-white hover:text-red-500"
+        onClick={() => navigate("/")}
+        className="absolute top-5 right-4 text-3xl font-bold bg-black rounded-b-full text-white"
       >
         ×
       </button>
 
-      <div className="bg-white shadow-lg rounded-lg p-8 w-[90%] max-w-md ml-36">
-        <h1 className="text-2xl font-bold mb-2 text-center">Food Corner</h1>
-        <h2 className="text-xl font-semibold mb-4 text-center">
-          {isSignup ? "SIGN UP" : "SIGN IN"}
+      <div className="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
+        <h1 className="text-2xl font-bold text-center">Food Corner</h1>
+        <h2 className="text-lg font-semibold text-center mb-6">
+          {isSignup ? "SIGN UP" : "LOGIN"}
         </h2>
 
-        <form className="space-y-4" onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} className="space-y-4">
           {isSignup && (
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Your Name
-              </label>
+              <label>Name</label>
               <input
-                type="text"
                 name="name"
-                placeholder="Name"
-                value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="w-full border px-3 py-2 rounded outline-none"
+                value={formik.values.name}
+                className="w-full border rounded px-3 py-2"
               />
               {formik.touched.name && formik.errors.name && (
-                <p className="text-red-500 text-sm">{formik.errors.name}</p>
+                <p className="text-red-500 text-xs">{formik.errors.name}</p>
               )}
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-medium mb-1">Your Email</label>
+            <label>Email</label>
             <input
-              type="email"
               name="email"
-              placeholder="example@gmail.com"
-              value={formik.values.email}
+              type="email"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full border px-3 py-2 rounded outline-none"
+              value={formik.values.email}
+              className="w-full border rounded px-3 py-2"
             />
             {formik.touched.email && formik.errors.email && (
-              <p className="text-red-500 text-sm">{formik.errors.email}</p>
+              <p className="text-red-500 text-xs">{formik.errors.email}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
+            <label>Password</label>
             <input
-              type="password"
               name="password"
-              placeholder="Password"
-              value={formik.values.password}
+              type="password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full border px-3 py-2 rounded outline-none"
+              value={formik.values.password}
+              className="w-full border rounded px-3 py-2"
             />
             {formik.touched.password && formik.errors.password && (
-              <p className="text-red-500 text-sm">{formik.errors.password}</p>
+              <p className="text-red-500 text-xs">{formik.errors.password}</p>
             )}
           </div>
 
-          {!isSignup ? (
-            <div className="flex justify-between text-sm text-gray-600">
-              <label>
-                <input type="checkbox" className="mr-1" />
-                Remember me
-              </label>
-              <a href="#" className="hover:underline">
-                Forgot password?
-              </a>
-            </div>
-          ) : (
-            <div className="flex items-center text-sm">
-              <input type="checkbox" className="mr-2" />
-              <span className="text-gray-600">
-                I Accept{" "}
-                <span className="text-orange-500">Terms And Condition</span>
-              </span>
-            </div>
-          )}
-
           <button
             type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded"
+            className="w-full bg-orange-500 text-white py-2 rounded"
           >
-            {isSignup ? "Register" : "Sign in"}
+            {isSignup ? "Register" : "Login"}
           </button>
         </form>
 
-        <p className="text-sm mt-4 text-center">
+        <p className="text-sm text-center mt-4">
           {isSignup ? (
             <>
               Already have an account?{" "}
-              <button
-                className="font-semibold text-black underline"
-                onClick={() => setIsSignup(false)}
-              >
-                Sign in
+              <button onClick={() => setIsSignup(false)} className="underline">
+                Login
               </button>
             </>
           ) : (
             <>
               Don’t have an account?{" "}
-              <button
-                className="font-semibold text-black underline"
-                onClick={() => setIsSignup(true)}
-              >
-                Sign Up
+              <button onClick={() => setIsSignup(true)} className="underline">
+                Sign up
               </button>
             </>
           )}
-        </p>
-
-        <p className="text-xs text-center text-gray-500 mt-6">
-          © 2025 Food Corner. Design by Akash
         </p>
       </div>
     </div>

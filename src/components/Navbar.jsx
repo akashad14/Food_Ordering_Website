@@ -1,105 +1,92 @@
-import { useState } from "react";
-import { FaSearch, FaShoppingBasket, FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import Signup from "./Signup";
-import { useCart } from "../pages/CartContext"
-
+import { useState, useEffect } from "react";
+import { FaBars, FaTimes, FaSearch, FaShoppingBasket } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../pages/CartContext";
+import UserMenu from "./UserMenu";
+import MobileMenu from "./MobileMenu";
 
 export default function Navbar() {
   const { cartItems } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showSignIn, setShowSignIn] = useState(false);
-  
-  const totalCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  const cartCount = cartItems.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("cartItems");
+    navigate("/");
+    window.location.reload();
+  };
 
   return (
-    <nav className="w-full px-4 py-4 bg-white fixed top-0 z-50">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+    <nav className="fixed top-0 w-full bg-white shadow z-50">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="text-3xl font-bold font-mono text-orange-600">
+        <Link to="/" className="text-3xl font-bold text-orange-600">
           Food Corner
-        </div>
+        </Link>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-6 text-sm text-gray-700 uppercase p-2 ">
-          <li className="p-2 rounded-xl hover:bg-amber-100">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="p-2 rounded-xl hover:bg-amber-100">
-            <Link to="/fullmenu">Menu</Link>
-          </li>
-          <li className="p-2 rounded-xl hover:bg-amber-100">
-            <Link to="/About">About</Link>
-          </li>
-          <li className="p-2 rounded-xl hover:bg-amber-100">
-            <Link to="/contact">contact us</Link>
-          </li>
+        <ul className="hidden md:flex gap-6 text-sm uppercase">
+          <Link to="/">Home</Link>
+          <Link to="/fullmenu">Menu</Link>
+          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
         </ul>
 
-        {/* Icons & Sign In */}
+        {/* Desktop Right */}
         <div className="hidden md:flex items-center gap-4">
-          <FaSearch className="text-xl text-gray-600 cursor-pointer" />
-          <Link to="/Cart" className="relative">
-          <FaShoppingBasket className="text-2xl text-gray-700 cursor-pointer" />
-          {totalCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-              {totalCount}
-            </span>
-          )}
-        </Link>
-          <button
-            className="border border-gray-400 px-4 py-1 rounded-full text-sm text-gray-800 hover:bg-gray-100"
-            onClick={() => setShowSignIn(true)}
-          >
-            sign in
-          </button>
+          <FaSearch className="text-xl cursor-pointer" />
 
-          {/* Signup Modal */}
-          {showSignIn && (
-            <div className="fixed inset-0  flex items-center justify-center z-50">
-              <button
-                className="absolute top-2 right-3 text-2xl font-bold text-gray-600 hover:text-black"
-                onClick={() => setShowSignIn(false)}
-              >
-                &times;
-              </button>
-
-              <Signup />
-            </div>
-          )}
-        </div>
-
-        {/* Hamburger Icon */}
-        <div className="md:hidden flex items-center">
-          <button onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? (
-              <FaTimes className="text-2xl" />
-            ) : (
-              <FaBars className="text-2xl" />
+          <Link to="/cart" className="relative">
+            <FaShoppingBasket className="text-2xl" />
+            {user && cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
             )}
-          </button>
+          </Link>
+
+          {user ? (
+            <UserMenu user={user} onLogout={logout} />
+          ) : (
+            <button
+              onClick={() => navigate("/signup")}
+              className="border px-4 py-1 rounded-full"
+            >
+              Sign In
+            </button>
+          )}
         </div>
+
+        {/* Mobile Toggle */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden"
+        >
+          {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+        </button>
       </div>
 
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="md:hidden mt-4 flex flex-col gap-4 text-sm text-gray-700 px-4 uppercase">
-          <a href="/" className=" w-fit">
-            Home
-          </a>
-          <a href="/fullmenu">Menu</a>
-          <a href="/About">About</a>
-          <a href="/contact">Contact us</a>
-          <div className="flex gap-4 items-center mt-2">
-            <FaSearch className="text-xl text-gray-600 cursor-pointer" />
-            <FaShoppingBasket className="text-xl text-gray-600 cursor-pointer" />
-
-            <button className="border border-gray-400 px-4 py-1 rounded-full text-sm text-gray-800 hover:bg-gray-100">
-              sign in
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Mobile Dropdown Menu */}
+      <MobileMenu
+        isOpen={menuOpen}
+        closeMenu={() => setMenuOpen(false)}
+        user={user}
+        cartCount={cartCount}
+        onLogout={logout}
+      />
     </nav>
   );
 }

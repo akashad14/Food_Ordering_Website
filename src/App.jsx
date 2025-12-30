@@ -1,44 +1,79 @@
-import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar'
-import HeroSection from './components/Home'
-import Fullmenu from './pages/Fullmenu';
-import About from './components/About';
-import Contact from './components/Contact'
-import Footer from './components/Footer';
-import { CartProvider } from '../src/pages/CartContext';
-
-
-
-import Cart from './pages/Cart'
-import Placeorder from './pages/Placeorder'
-
-
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HeroSection from "./components/Home";
+import Fullmenu from "./pages/Fullmenu";
+import About from "./components/About";
+import Contact from "./components/Contact";
+import Signup from "./components/Signup";
+import Cart from "./pages/Cart";
+import Placeorder from "./pages/Placeorder";
+import Layout from "./layout";
+import { CartProvider } from "./pages/CartContext";
+import ProtectedRoute from "../src/routes/ProtectedRoute";
 
 function App() {
-
   return (
-    <>
-        <Router>
-          <CartProvider>
-      <Navbar />
-      <div className="pt-20"> {/* add padding if your navbar is fixed */}
-         
+    <Router>
+      <CartProvider>
         <Routes>
-          <Route path="/" element={<HeroSection />} />
-          <Route path="/fullmenu" element={<Fullmenu />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/Cart" element={<Cart/>} />
+          {/* Layout wrapper */}
+          <Route element={<Layout />}>
+
+            {/* Public Route */}
+            <Route path="/" element={<HeroSection />} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/fullmenu"
+              element={
+                <ProtectedRoute>
+                  <Fullmenu />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/about"
+              element={
+                <ProtectedRoute>
+                  <About />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/contact"
+              element={
+                <ProtectedRoute>
+                  <Contact />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/placeorder"
+              element={
+                <ProtectedRoute>
+                  <Placeorder />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+
+          {/* Auth Route (No Layout) */}
+          <Route path="/signup" element={<Signup />} />
         </Routes>
-        
-      </div>
       </CartProvider>
-      <Footer />
     </Router>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;
