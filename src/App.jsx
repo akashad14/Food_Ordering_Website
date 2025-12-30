@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HeroSection from "./components/Home";
-import Fullmenu from "./pages/Fullmenu";
+// import Fullmenu from "./pages/Fullmenu";
+import Menu from "./components/menu/Menu";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Signup from "./components/Signup";
@@ -23,10 +24,10 @@ function App() {
 
             {/* Protected Routes */}
             <Route
-              path="/fullmenu"
+              path="/Menu"
               element={
                 <ProtectedRoute>
-                  <Fullmenu />
+                  <Menu />
                 </ProtectedRoute>
               }
             />

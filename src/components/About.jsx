@@ -1,33 +1,57 @@
-import React from 'react';
+import React from "react";
+import CoreValues from "../components/about/CoreValues";
 
-export default function About() {
+const About = () => {
   return (
-    <section className="bg-white py-12 px-4 md:px-16">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-        {/* Image Section */}
-        <div className="w-full">
-          <img
-            src="/menu/item5.jpg" // replace with your image path
-            alt="About Food Delivery"
-            className="rounded-2xl shadow-lg w-full md:h-[400px] object-cover"
-          />
-        </div>
-
-        {/* Content Section */}
-        <div className="text-gray-800">
-          <h2 className="text-4xl font-bold mb-4">About Our Service</h2>
-          <p className="text-lg mb-4">
-            We deliver delicious, freshly prepared meals straight to your doorstep. With a focus on quality ingredients and fast delivery, our platform connects you with top-rated restaurants in your area.
+    <section className="w-full">
+      {/* HERO SECTION */}
+      <div className="bg-red-600">
+        <div className="max-w-7xl mx-auto px-6 pt-25 pb-15">
+          <h1 className="text-4xl md:text-5xl font-bold text-white">
+            About Food Corner
+          </h1>
+          <p className="text-white mt-4 text-lg max-w-xl">
+            Your favorite destination for delicious food, delivered fast and fresh
           </p>
-          <p className="text-base text-gray-600">
-            Whether you're craving spicy Indian, classic Italian, or healthy salads, we’ve got you covered. Order in seconds and enjoy hot meals in minutes — all with a single tap.
-          </p>
-
-          <button className="mt-6 px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-full transition">
-            Learn More
-          </button>
         </div>
       </div>
+
+      {/* CONTENT SECTION */}
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          
+          {/* LEFT TEXT */}
+          <div>
+            <h2 className="text-3xl font-bold mb-6">Our Story</h2>
+
+            <p className="text-gray-600 mb-4 leading-relaxed">
+              Founded in 2020, Food Corner started with a simple mission:
+              to bring the world's best restaurants straight to your doorstep.
+              What began as a small operation has grown into a thriving
+              community of food lovers and talented chefs.
+            </p>
+
+            <p className="text-gray-600 leading-relaxed">
+              We believe that great food brings people together. That's why
+              we partner only with restaurants that share our commitment to
+              quality, freshness, and exceptional service.
+            </p>
+          </div>
+
+          {/* RIGHT IMAGE */}
+          <div className="flex justify-center lg:justify-end">
+            <img
+              src="/about.jpg"
+              alt="Professional Kitchen"
+              className="w-full max-w-lg rounded-xl shadow-lg object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <CoreValues />
     </section>
   );
-}
+};
+
+export default About;

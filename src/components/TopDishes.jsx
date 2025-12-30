@@ -73,12 +73,12 @@ export default function TopDishes({ selectedCategory }) {
   const { cartItems, addToCart, updateQuantity, removeFromCart } = useCart();
   const navigate = useNavigate();
 
-  // ✅ LOGIN STATE (single source of truth)
+  // LOGIN STATE (single source of truth)
   const isLoggedIn =
     !!localStorage.getItem("token") &&
     !!localStorage.getItem("user");
 
-  // ✅ Quantity resolver (forces 0 if logged out)
+  // Quantity resolver (forces 0 if logged out)
   const getQuantityFromCart = (name) => {
     if (!isLoggedIn) return 0;
     const item = cartItems.find((i) => i.name === name);
@@ -92,7 +92,7 @@ export default function TopDishes({ selectedCategory }) {
           dish.name.toLowerCase().includes(selectedCategory.toLowerCase())
         );
 
-  // ✅ Add / Increase
+  // Add / Increase
   const handleAdd = (dish) => {
     if (!isLoggedIn) {
       navigate("/signup");
@@ -110,7 +110,7 @@ export default function TopDishes({ selectedCategory }) {
     }
   };
 
-  // ✅ Decrease / Remove
+  //Decrease / Remove
   const handleDecrease = (dish) => {
     if (!isLoggedIn) {
       navigate("/signup");

@@ -38,9 +38,9 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-6 text-sm uppercase">
+        <ul className="hidden md:flex gap-6 text-md font-semibold uppercase">
           <Link to="/">Home</Link>
-          <Link to="/fullmenu">Menu</Link>
+          <Link to="/Menu">Menu</Link>
           <Link to="/about">About</Link>
           <Link to="/contact">Contact</Link>
         </ul>
