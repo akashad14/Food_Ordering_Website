@@ -13,7 +13,7 @@ export default function UserMenu({ user, onLogout }) {
         className="flex items-center gap-2 focus:outline-none"
       >
         <img
-          src={user.avatar || "https://i.pravatar.cc/40"}
+          src="/user.png"
           alt="user"
           className="w-9 h-9 rounded-full object-cover"
         />

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useCart } from "../../pages/CartContext";
 import MenuCard from "./MenuCard";
 
 const categories = ["All Items", "Burgers", "Pizza", "Salads", "Drinks", "Desserts"];

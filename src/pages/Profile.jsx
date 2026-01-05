@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./CartContext";
+import { useCart } from "../components/context/CartContext";
 
 const Profile = () => {
   const navigate = useNavigate();

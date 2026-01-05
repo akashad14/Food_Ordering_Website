@@ -1,9 +1,10 @@
 import React from "react";
-import { useCart } from "../pages/CartContext";
+import { useCart } from "../components/context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 const dishes = [
   {
+    id: 101,
     name: "Noodles",
     image: "/fooditem/dish1.jpg",
     price: 12,
@@ -12,7 +13,8 @@ const dishes = [
       "Food provides essential nutrients for overall health and well-being",
   },
   {
-    name: "Veg salad",
+    id: 102,
+    name: "Veg Salad",
     image: "/fooditem/dish2..jpg",
     price: 18,
     rating: 4,
@@ -20,7 +22,8 @@ const dishes = [
       "Food provides essential nutrients for overall health and well-being",
   },
   {
-    name: "Desert",
+    id: 103,
+    name: "Dessert",
     image: "/fooditem/dish3.jpg",
     price: 16,
     rating: 4,
@@ -28,6 +31,7 @@ const dishes = [
       "Food provides essential nutrients for overall health and well-being",
   },
   {
+    id: 104,
     name: "Sandwich",
     image: "/fooditem/dish4.jpg",
     price: 24,
@@ -36,7 +40,8 @@ const dishes = [
       "Food provides essential nutrients for overall health and well-being",
   },
   {
-    name: "Greek salad",
+    id: 105,
+    name: "Greek Salad",
     image: "/fooditem/dish5.jpg",
     price: 12,
     rating: 4,
@@ -44,6 +49,7 @@ const dishes = [
       "Food provides essential nutrients for overall health and well-being",
   },
   {
+    id: 106,
     name: "Pasta",
     image: "/fooditem/dish6.jpg",
     price: 18,
@@ -52,6 +58,7 @@ const dishes = [
       "Food provides essential nutrients for overall health and well-being",
   },
   {
+    id: 107,
     name: "Cake",
     image: "/fooditem/dish7.jpg",
     price: 16,
@@ -60,6 +67,7 @@ const dishes = [
       "Food provides essential nutrients for overall health and well-being",
   },
   {
+    id: 108,
     name: "Rolls",
     image: "/fooditem/dish8.jpg",
     price: 24,
@@ -73,15 +81,13 @@ export default function TopDishes({ selectedCategory }) {
   const { cartItems, addToCart, updateQuantity, removeFromCart } = useCart();
   const navigate = useNavigate();
 
-  // LOGIN STATE (single source of truth)
   const isLoggedIn =
     !!localStorage.getItem("token") &&
     !!localStorage.getItem("user");
 
-  // Quantity resolver (forces 0 if logged out)
-  const getQuantityFromCart = (name) => {
+  const getQuantityFromCart = (id) => {
     if (!isLoggedIn) return 0;
-    const item = cartItems.find((i) => i.name === name);
+    const item = cartItems.find((i) => i.id === id);
     return item ? item.quantity : 0;
   };
 
@@ -92,41 +98,33 @@ export default function TopDishes({ selectedCategory }) {
           dish.name.toLowerCase().includes(selectedCategory.toLowerCase())
         );
 
-  // Add / Increase
   const handleAdd = (dish) => {
     if (!isLoggedIn) {
       navigate("/signup");
       return;
     }
 
-    const existing = cartItems.find(
-      (item) => item.name === dish.name
-    );
-
-    if (existing) {
-      updateQuantity(dish.name, existing.quantity + 1);
-    } else {
-      addToCart(dish);
-    }
+    addToCart({
+      id: dish.id,
+      name: dish.name,
+      price: Number(dish.price),
+      image: dish.image,
+    });
   };
 
-  //Decrease / Remove
   const handleDecrease = (dish) => {
     if (!isLoggedIn) {
       navigate("/signup");
       return;
     }
 
-    const existing = cartItems.find(
-      (item) => item.name === dish.name
-    );
-
+    const existing = cartItems.find((i) => i.id === dish.id);
     if (!existing) return;
 
     if (existing.quantity > 1) {
-      updateQuantity(dish.name, existing.quantity - 1);
+      updateQuantity(dish.id, existing.quantity - 1);
     } else {
-      removeFromCart(dish.name);
+      removeFromCart(dish.id);
     }
   };
 
@@ -138,12 +136,12 @@ export default function TopDishes({ selectedCategory }) {
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredDishes.map((dish, index) => {
-            const cartQty = getQuantityFromCart(dish.name);
+          {filteredDishes.map((dish) => {
+            const cartQty = getQuantityFromCart(dish.id);
 
             return (
               <div
-                key={index}
+                key={dish.id}
                 className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <img
@@ -180,9 +178,7 @@ export default function TopDishes({ selectedCategory }) {
                     </button>
                   </div>
 
-                  <h3 className="text-lg font-semibold">
-                    {dish.name}
-                  </h3>
+                  <h3 className="text-lg font-semibold">{dish.name}</h3>
 
                   <div className="flex items-center text-orange-400 text-sm mb-1">
                     {"★".repeat(dish.rating)}
@@ -194,7 +190,7 @@ export default function TopDishes({ selectedCategory }) {
                   </p>
 
                   <p className="text-orange-600 font-semibold mt-2">
-                    ${dish.price}
+                    ${dish.price.toFixed(2)}
                   </p>
                 </div>
               </div>

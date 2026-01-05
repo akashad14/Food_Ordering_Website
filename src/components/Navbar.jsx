@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes, FaSearch, FaShoppingBasket } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "../pages/CartContext";
+import { useCart } from "./context/CartContext";
 import UserMenu from "./UserMenu";
 import MobileMenu from "./MobileMenu";
 
@@ -11,10 +11,7 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const cartCount = cartItems.reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -30,11 +27,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-white shadow z-50">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <nav className="fixed top-0 w-full bg-white shadow z-50 h-16">
+      <div className="max-w-7xl mx-auto h-full flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-3xl font-bold text-orange-600">
-          Food Corner
+        <Link to="/" className="flex items-center h-full">
+          <img
+            src="/web-logo.png"
+            alt="Food Corner Logo"
+            className="max-h-40 w-auto object-contain"
+          />
         </Link>
 
         {/* Desktop Menu */}
@@ -71,10 +72,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Toggle */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden"
-        >
+        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
           {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
         </button>
       </div>

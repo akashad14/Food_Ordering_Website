@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HeroSection from "./components/Home";
 // import Fullmenu from "./pages/Fullmenu";
-import Menu from "./components/menu/Menu";
+import Menu from "./pages/menu/Menu";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Signup from "./components/Signup";
 import Cart from "./pages/Cart";
 import Placeorder from "./pages/Placeorder";
 import Layout from "./layout";
-import { CartProvider } from "./pages/CartContext";
+import { CartProvider } from "./components/context/CartContext";
 import ProtectedRoute from "../src/routes/ProtectedRoute";
 
 function App() {
