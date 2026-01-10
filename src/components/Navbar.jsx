@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaBars, FaTimes, FaSearch, FaShoppingBasket } from "react-icons/fa";
+import { FaBars, FaTimes, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./context/CartContext";
 import UserMenu from "./UserMenu";
@@ -19,65 +19,78 @@ export default function Navbar() {
   }, []);
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("cartItems");
+    localStorage.clear();
     navigate("/");
     window.location.reload();
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-white shadow z-50 h-16">
-      <div className="max-w-7xl mx-auto h-full flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center h-full">
+    <nav className="fixed top-0 w-full bg-white border-b z-50">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+        {/* LOGO IMAGE */}
+        <Link to="/" className="flex items-center">
           <img
-            src="/web-logo.png"
-            alt="Food Corner Logo"
-            className="max-h-40 w-auto object-contain"
+            src="/web-logo.png"        // place logo inside /public
+            alt="Macka Logo"
+            className="h-45 w-auto object-contain"
           />
         </Link>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-6 text-md font-semibold uppercase">
-          <Link to="/">Home</Link>
-          <Link to="/Menu">Menu</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
+        {/* CENTER MENU */}
+        <ul className="hidden md:flex items-center gap-10 text-sm font-medium text-gray-700">
+          {["Home", "Menu", "About", "Contact"].map((item) => (
+            <Link
+              key={item}
+              to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+              className="hover:text-black transition"
+            >
+              {item}
+            </Link>
+          ))}
         </ul>
 
-        {/* Desktop Right */}
-        <div className="hidden md:flex items-center gap-4">
-          <FaSearch className="text-xl cursor-pointer" />
+        {/* RIGHT SECTION */}
+        <div className="hidden md:flex items-center gap-6">
+          {/* Search */}
+          <FaSearch className="text-gray-600 cursor-pointer hover:text-black transition" />
 
+          {/* Cart */}
           <Link to="/cart" className="relative">
-            <FaShoppingBasket className="text-2xl" />
+            <FaShoppingCart className="text-lg text-gray-700" />
             {user && cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-[#F23827] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}
           </Link>
 
+          {/* Divider */}
+          <span className="h-6 w-px bg-gray-300" />
+
+          {/* User */}
           {user ? (
             <UserMenu user={user} onLogout={logout} />
           ) : (
             <button
               onClick={() => navigate("/signup")}
-              className="border px-4 py-1 rounded-full"
+              className="text-sm font-medium text-gray-700 hover:text-black transition"
             >
               Sign In
             </button>
           )}
         </div>
 
-        {/* Mobile Toggle */}
-        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
+        {/* MOBILE TOGGLE */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden text-gray-800"
+        >
           {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* MOBILE MENU */}
       <MobileMenu
         isOpen={menuOpen}
         closeMenu={() => setMenuOpen(false)}

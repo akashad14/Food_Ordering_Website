@@ -21,9 +21,11 @@ const Signup = () => {
       name: isSignup
         ? Yup.string().min(2, "Too short").required("Name is required")
         : Yup.string(),
-      email: Yup.string().email("Invalid email").required("Email is required"),
+      email: Yup.string()
+        .email("Invalid email")
+        .required("Email is required"),
       password: Yup.string()
-        .min(6, "Min 6 characters")
+        .min(6, "Minimum 6 characters")
         .required("Password is required"),
     }),
 
@@ -38,9 +40,7 @@ const Signup = () => {
           : { email: values.email, password: values.password };
 
         const response = await axios.post(url, payload, {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         });
 
         if (isSignup) {
@@ -50,6 +50,7 @@ const Signup = () => {
         } else {
           const { token, user } = response.data;
 
+          // ✅ STORE AUTH DATA
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
 
@@ -57,7 +58,8 @@ const Signup = () => {
         }
       } catch (error) {
         const message =
-          error.response?.data?.message || "Server error. Try again.";
+          error.response?.data?.message ||
+          "Server error. Please try again.";
         alert(message);
       }
     },
@@ -68,23 +70,28 @@ const Signup = () => {
       className="min-h-screen w-full bg-cover bg-center flex items-center justify-center px-4"
       style={{ backgroundImage: "url('/signup-bg.jpg')" }}
     >
+      {/* Close Button */}
       <button
         onClick={() => navigate("/")}
-        className="absolute top-5 right-4 text-3xl font-bold bg-black rounded-b-full text-white"
+        className="absolute top-5 right-5 text-3xl font-bold text-white bg-black rounded-full w-10 h-10 flex items-center justify-center"
       >
         ×
       </button>
 
       <div className="bg-white w-full max-w-md rounded-xl shadow-xl p-6">
-        <h1 className="text-2xl font-bold text-center">Food Corner</h1>
+        <h1 className="text-2xl font-bold text-center mb-1">
+          Food Corner
+        </h1>
         <h2 className="text-lg font-semibold text-center mb-6">
-          {isSignup ? "SIGN UP" : "LOGIN"}
+          {isSignup ? "Create Account" : "Login"}
         </h2>
 
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           {isSignup && (
             <div>
-              <label>Name</label>
+              <label className="block text-sm font-medium">
+                Name
+              </label>
               <input
                 name="name"
                 onChange={formik.handleChange}
@@ -93,13 +100,17 @@ const Signup = () => {
                 className="w-full border rounded px-3 py-2"
               />
               {formik.touched.name && formik.errors.name && (
-                <p className="text-red-500 text-xs">{formik.errors.name}</p>
+                <p className="text-red-500 text-xs">
+                  {formik.errors.name}
+                </p>
               )}
             </div>
           )}
 
           <div>
-            <label>Email</label>
+            <label className="block text-sm font-medium">
+              Email
+            </label>
             <input
               name="email"
               type="email"
@@ -109,12 +120,16 @@ const Signup = () => {
               className="w-full border rounded px-3 py-2"
             />
             {formik.touched.email && formik.errors.email && (
-              <p className="text-red-500 text-xs">{formik.errors.email}</p>
+              <p className="text-red-500 text-xs">
+                {formik.errors.email}
+              </p>
             )}
           </div>
 
           <div>
-            <label>Password</label>
+            <label className="block text-sm font-medium">
+              Password
+            </label>
             <input
               name="password"
               type="password"
@@ -123,16 +138,19 @@ const Signup = () => {
               value={formik.values.password}
               className="w-full border rounded px-3 py-2"
             />
-            {formik.touched.password && formik.errors.password && (
-              <p className="text-red-500 text-xs">{formik.errors.password}</p>
-            )}
+            {formik.touched.password &&
+              formik.errors.password && (
+                <p className="text-red-500 text-xs">
+                  {formik.errors.password}
+                </p>
+              )}
           </div>
 
           <button
             type="submit"
-            className="w-full bg-orange-500 text-white py-2 rounded"
+            className="w-full bg-orange-500 text-white py-2 rounded font-semibold hover:bg-orange-600 transition"
           >
-            {isSignup ? "Register" : "Login"}
+            {isSignup ? "Sign Up" : "Login"}
           </button>
         </form>
 
@@ -140,14 +158,20 @@ const Signup = () => {
           {isSignup ? (
             <>
               Already have an account?{" "}
-              <button onClick={() => setIsSignup(false)} className="underline">
+              <button
+                onClick={() => setIsSignup(false)}
+                className="text-orange-600 font-semibold"
+              >
                 Login
               </button>
             </>
           ) : (
             <>
               Don’t have an account?{" "}
-              <button onClick={() => setIsSignup(true)} className="underline">
+              <button
+                onClick={() => setIsSignup(true)}
+                className="text-orange-600 font-semibold"
+              >
                 Sign up
               </button>
             </>

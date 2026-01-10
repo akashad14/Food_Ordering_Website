@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HeroSection from "./components/Home";
+// import HeroSection from "./components/Home/Hero";
+import HeroSection from "./components/Home/Homepage";
 // import Fullmenu from "./pages/Fullmenu";
 import Menu from "./pages/menu/Menu";
 import About from "./components/About";
-import Contact from "./components/Contact";
+// import Contact from "./components/Contact";
+import Contact from "./pages/contactpage/contact";
 import Signup from "./components/Signup";
 import Cart from "./pages/Cart";
 import Placeorder from "./pages/Placeorder";
@@ -26,27 +28,27 @@ function App() {
             <Route
               path="/Menu"
               element={
-                <ProtectedRoute>
+                
                   <Menu />
-                </ProtectedRoute>
+                
               }
             />
 
             <Route
               path="/about"
               element={
-                <ProtectedRoute>
+                
                   <About />
-                </ProtectedRoute>
+              
               }
             />
 
             <Route
-              path="/contact"
+              path="/Contact"
               element={
-                <ProtectedRoute>
+               
                   <Contact />
-                </ProtectedRoute>
+              
               }
             />
 

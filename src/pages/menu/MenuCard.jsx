@@ -19,7 +19,7 @@ const MenuCard = ({ item }) => {
       <img
         src={item.image}
         alt={item.name}
-        className="w-full h-56 object-cover rounded-t-xl"
+        className="w-full h-60 object-cover rounded-t-xl"
       />
 
       <div className="p-5">
@@ -29,13 +29,13 @@ const MenuCard = ({ item }) => {
         </p>
 
         <div className="flex justify-between items-center mt-4">
-          <span className="font-bold text-lg text-red-600">
+          <span className="font-bold text-lg text-[#F23827]">
             ${item.price}
           </span>
 
           <button
             onClick={handleAddToCart}
-            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+            className="bg-[#F23827] text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
           >
             Add to Cart
           </button>

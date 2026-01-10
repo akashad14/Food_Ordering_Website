@@ -1,57 +1,96 @@
-import React from 'react';
-import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
+import React from "react";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaXTwitter,
+  FaApple,
+  FaGooglePlay,
+} from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white px-6 py-10">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-4 sm:grid-cols-2 gap-8">
+    <footer className="bg-[#0d0d0d] text-white relative overflow-hidden">
 
-        {/* Logo & About */}
-        <div>
-          <h2 className="text-2xl font-bold mb-2">Food Corner</h2>
-          <p className="text-sm text-gray-300">
-            Delivering delicious meals to your doorstep with love and care. Order now and enjoy your favorite food fast.
-          </p>
-        </div>
+      {/* Pattern Overlay */}
+      <div className="absolute inset-0 opacity-10 bg-[url('/food-pattern.png')] bg-repeat" />
 
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-          <ul className="space-y-2 text-sm text-gray-300">
-            <li><a href="/">Home</a></li>
-            <li> <a href="/fullmenu">Menu</a></li>
-            <li><a href="/About">About</a></li>
-            <li><a href="/contact">Contact us</a></li>
-           
-          
-          
-          </ul>
-        </div>
+      <div className="relative max-w-7xl mx-auto px-6 py-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
 
-        {/* Help */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Help</h3>
-          <ul className="space-y-2 text-sm text-gray-300">
-            <li><a href="#">FAQs</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Order Tracking</a></li>
-          </ul>
-        </div>
+          {/* BRAND */}
+          <div className="lg:col-span-2">
+            <h2 className="text-3xl font-bold italic">
+              Mac<span className="text-red-500">k</span>a!
+            </h2>
 
-        {/* Social */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
-          <div className="flex gap-4 text-xl text-gray-300">
-            <FaFacebookF className="hover:text-white cursor-pointer" />
-            <FaInstagram className="hover:text-white cursor-pointer" />
-            <FaTwitter className="hover:text-white cursor-pointer" />
+            <p className="text-gray-400 text-sm mt-3 max-w-sm">
+              Download our app and enjoy delicious food anytime, anywhere.
+            </p>
+
+            {/* APP BUTTONS */}
+            {/* <div className="flex gap-4 mt-6 flex-wrap">
+              <button className="flex items-center gap-2 bg-black border border-gray-700 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                <FaApple size={20} />
+                <span className="text-xs">
+                  Download on the <br />
+                  <strong>App Store</strong>
+                </span>
+              </button>
+
+              <button className="flex items-center gap-2 bg-black border border-gray-700 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                <FaGooglePlay size={18} />
+                <span className="text-xs">
+                  Get it on <br />
+                  <strong>Google Play</strong>
+                </span>
+              </button>
+            </div> */}
+
+            {/* SOCIAL */}
+            <div className="flex items-center gap-4 mt-8">
+              <span className="text-sm text-gray-400">Follow us:</span>
+              <FaFacebookF className="hover:text-red-500 cursor-pointer" />
+              <FaXTwitter className="hover:text-red-500 cursor-pointer" />
+              <FaInstagram className="hover:text-red-500 cursor-pointer" />
+            </div>
+          </div>
+
+          {/* HELP */}
+          <div>
+            <h4 className="font-semibold mb-4">Help & Service</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li>Contact Us</li>
+              <li>Macka</li>
+              <li>Careers</li>
+            </ul>
+          </div>
+
+          {/* NUTRITION */}
+          <div>
+            <h4 className="font-semibold mb-4">Nutrition</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li>Menu</li>
+              <li>Allergens</li>
+              <li>FAQ</li>
+            </ul>
+          </div>
+
+          {/* POLICIES */}
+          <div>
+            <h4 className="font-semibold mb-4">Our Policies</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li>Privacy Policy</li>
+              <li>Terms & Conditions</li>
+              <li>Cookies & Ads Policy</li>
+              <li>Gift Cards</li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      <div className="text-center text-gray-500 text-sm mt-10 border-t border-gray-700 pt-4">
-        &copy; 2025 Food Corner. All rights reserved.
+        {/* COPYRIGHT */}
+        <div className="border-t border-gray-800 mt-12 pt-6 text-center text-sm text-gray-500">
+          © 2026 Macka Company. All rights reserved.
+        </div>
       </div>
     </footer>
   );

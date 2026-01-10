@@ -10,7 +10,7 @@ const menuItems = [
     description: "Juicy beef patty with lettuce, tomato, and special sauce",
     price: "12.99",
     category: "Burgers",
-    image: "/menupage/burger1.jpg",
+    image: "/menupage/burger2.1.png",
   },
   {
     id: 2,
@@ -18,7 +18,7 @@ const menuItems = [
     description: "Double patty with crispy bacon and melted cheddar",
     price: "14.99",
     category: "Burgers",
-    image: "/menupage/burger2.2.jpg",
+    image: "/menupage/burger.png",
   },
   {
     id: 3,
@@ -26,7 +26,7 @@ const menuItems = [
     description: "Fresh mozzarella, basil, and tomato sauce",
     price: "13.99",
     category: "Pizza",
-    image: "/menupage/pizza1.1.jpg",
+    image: "/menupage/pizza.png",
   },
    {
     id: 4,
@@ -42,7 +42,7 @@ const menuItems = [
     description: "Crisp romaine with parmesan and creamy dressing",
     price: "10.99",
     category: "Salads",
-    image: "/menupage/salad1.jpg",
+    image: "/menupage/salad.png",
   },
   {
     id: 6,
@@ -50,7 +50,7 @@ const menuItems = [
     description: "Fresh vegetables with feta cheese and olives",
     price: "11.99",
     category: "Salads",
-    image: "/menupage/salad2.jpg",
+    image: "/menupage/salad1.1.png",
   },
     {
     id: 7,
@@ -58,7 +58,7 @@ const menuItems = [
     description: "Freshly squeezed orange juice",
     price: "4.99",
     category: "Drinks",
-    image: "/menu/burger1.jpg",
+    image: "/menupage/juice.png",
   },
   {
     id: 8,
@@ -66,7 +66,7 @@ const menuItems = [
     description: "Smooth cold brew with ice",
     price: "5.99",
     category: "Drinks",
-    image: "/menu/burger2.jpg",
+    image: "/menupage/coffe.png",
   },
   {
     id: 9,
@@ -74,7 +74,7 @@ const menuItems = [
     description: "Rich and moist chocolate layer cake",
     price: "7.99",
     category: "Desserts",
-    image: "/menu/pizza1.jpg",
+    image: "/menupage/cake.png",
   },
   {
     id: 10,
@@ -82,7 +82,7 @@ const menuItems = [
     description: "Creamy NY style cheesecake",
     price: "8.99",
     category: "Desserts",
-    image: "/menu/pizza1.jpg",
+    image: "/menupage/cheesecake.png",
   }
 ];
 
@@ -98,7 +98,7 @@ const Menu = () => {
   return (
     <section className="w-full">
       {/* MENU HEADER */}
-      <div className="bg-red-600">
+      <div className="bg-[#F23827]">
         <div className="max-w-7xl mx-auto px-6 py-20">
           <h1 className="text-4xl md:text-5xl font-bold text-white">
             Our Delicious Menu
@@ -119,7 +119,7 @@ const Menu = () => {
               className={`px-6 py-2 rounded-lg border whitespace-nowrap transition
                 ${
                   activeCategory === cat
-                    ? "bg-red-600 text-white border-red-600"
+                    ? "bg-[#F23827] text-white border-red-600"
                     : "bg-white text-gray-700 border-gray-300 hover:border-red-600"
                 }`}
             >

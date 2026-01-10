@@ -5,10 +5,10 @@ const About = () => {
   return (
     <section className="w-full">
       {/* HERO SECTION */}
-      <div className="bg-red-600">
+      <div className="bg-[#F23827]">
         <div className="max-w-7xl mx-auto px-6 pt-25 pb-15">
           <h1 className="text-4xl md:text-5xl font-bold text-white">
-            About Food Corner
+            About Macka
           </h1>
           <p className="text-white mt-4 text-lg max-w-xl">
             Your favorite destination for delicious food, delivered fast and fresh
