@@ -16,7 +16,7 @@ export default function MobileMenu({
     <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t z-40">
       <div className="flex flex-col px-6 py-4 space-y-4 text-sm uppercase">
         <Link to="/" onClick={closeMenu}>Home</Link>
-        <Link to="/fullmenu" onClick={closeMenu}>Menu</Link>
+        <Link to="/Menu" onClick={closeMenu}>Menu</Link>
         <Link to="/about" onClick={closeMenu}>About</Link>
         <Link to="/contact" onClick={closeMenu}>Contact</Link>
 

@@ -1,13 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HeroSection from "./components/Home";
-import Fullmenu from "./pages/Fullmenu";
+// import HeroSection from "./components/Home/Hero";
+import HeroSection from "./components/Home/Homepage";
+// import Fullmenu from "./pages/Fullmenu";
+import Menu from "./pages/menu/Menu";
 import About from "./components/About";
-import Contact from "./components/Contact";
+// import Contact from "./components/Contact";
+import Contact from "./pages/contactpage/contact";
 import Signup from "./components/Signup";
 import Cart from "./pages/Cart";
 import Placeorder from "./pages/Placeorder";
 import Layout from "./layout";
-import { CartProvider } from "./pages/CartContext";
+import { CartProvider } from "./components/context/CartContext";
 import ProtectedRoute from "../src/routes/ProtectedRoute";
 
 function App() {
@@ -23,29 +26,29 @@ function App() {
 
             {/* Protected Routes */}
             <Route
-              path="/fullmenu"
+              path="/Menu"
               element={
-                <ProtectedRoute>
-                  <Fullmenu />
-                </ProtectedRoute>
+                
+                  <Menu />
+                
               }
             />
 
             <Route
               path="/about"
               element={
-                <ProtectedRoute>
+                
                   <About />
-                </ProtectedRoute>
+              
               }
             />
 
             <Route
-              path="/contact"
+              path="/Contact"
               element={
-                <ProtectedRoute>
+               
                   <Contact />
-                </ProtectedRoute>
+              
               }
             />
 
