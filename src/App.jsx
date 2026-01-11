@@ -1,7 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import HeroSection from "./components/Home/Hero";
 import HeroSection from "./components/Home/Homepage";
-// import Fullmenu from "./pages/Fullmenu";
 import Menu from "./pages/menu/Menu";
 import About from "./components/About";
 // import Contact from "./components/Contact";

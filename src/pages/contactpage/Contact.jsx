@@ -1,6 +1,6 @@
 "use client";
 
-import ContactInfo from "./Contactinfo";
+
 import Contactform from "./Contact-form";
 import Contactinfo from "./Contactinfo";
 
