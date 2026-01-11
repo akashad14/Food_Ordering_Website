@@ -3,7 +3,7 @@ import HeroSection from "./components/Home/Homepage";
 import Menu from "./pages/menu/Menu";
 import About from "./components/About";
 // import Contact from "./components/Contact";
-import Contact from "./pages/contactpage/Contact";
+import Contact from "./pages/Contact/Contact";
 import Signup from "./components/Signup";
 import Cart from "./pages/Cart";
 import Placeorder from "./pages/Placeorder";
