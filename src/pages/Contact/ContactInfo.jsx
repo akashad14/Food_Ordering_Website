@@ -1,6 +1,6 @@
 import { Mail, Phone, MapPin, Clock, Facebook, Instagram, Twitter } from "lucide-react";
 
-export default function Contactinfo() {
+export default function ContactInfo() {
   return (
     <div className="space-y-6">
       {/* MAIN INFO CARD */}
