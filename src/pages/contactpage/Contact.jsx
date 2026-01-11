@@ -1,7 +1,8 @@
 "use client";
 
 import ContactInfo from "./Contactinfo";
-import ContactForm from "./Contact-form";
+import Contactform from "./Contact-form";
+import Contactinfo from "./Contactinfo";
 
 export default function Contact() {
   return (
@@ -26,8 +27,8 @@ export default function Contact() {
 
         {/* CONTENT */}
         <div className="grid lg:grid-cols-2 gap-14 items-start">
-          <ContactInfo />
-          <ContactForm />
+          <Contactinfo/>
+          <Contactform />
         </div>
       </div>
     </main>
