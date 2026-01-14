@@ -4,7 +4,8 @@ import Menu from "./pages/menu/Menu";
 import About from "./components/About";
 // import Contact from "./components/Contact";
 import Contact from "./pages/Contact/Contact";
-import Signup from "./components/Signup";
+// import Signup from "./components/Signup";
+import Signup from "./components/form/Signup";
 import Cart from "./pages/Cart";
 import Placeorder from "./pages/Placeorder";
 import Layout from "./layout";
@@ -70,7 +71,7 @@ function App() {
           </Route>
 
           {/* Auth Route (No Layout) */}
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/Signup" element={<Signup />} />
         </Routes>
       </CartProvider>
     </Router>

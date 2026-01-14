@@ -172,12 +172,12 @@ export default function TopDishes({ selectedCategory }) {
                     {qty === 0 ? (
                       <button
                         onClick={() => handleAdd(dish)}
-                        className="bg-[#F23827] hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold"
+                        className="bg-[#F23827] hover:bg-orange-600 text-white px-6 py-2 rounded-3xl text-sm font-semibold"
                       >
                         Add
                       </button>
                     ) : (
-                      <div className="flex items-center bg-orange-500 text-white rounded-full px-3 py-1">
+                      <div className="flex items-center bg-orange-500 text-white rounded-3xl px-3 py-1">
                         <button
                           onClick={() => handleDecrease(dish)}
                           className="px-2 text-lg"
