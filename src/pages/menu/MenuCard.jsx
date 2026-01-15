@@ -2,9 +2,11 @@ import React from "react";
 import { useCart } from "../../components/context/CartContext";
 
 const MenuCard = ({ item }) => {
-  const { addToCart } = useCart();
+  const { cartItems, addToCart, updateQuantity, removeFromCart } = useCart();
 
-  const handleAddToCart = () => {
+  const cartItem = cartItems.find((c) => c.id === item.id);
+
+  const handleAdd = () => {
     addToCart({
       id: item.id,
       name: item.name,
@@ -14,31 +16,68 @@ const MenuCard = ({ item }) => {
     });
   };
 
+  const handleIncrease = () => {
+    updateQuantity(item.id, cartItem.quantity + 1);
+  };
+
+  const handleDecrease = () => {
+    if (cartItem.quantity === 1) {
+      removeFromCart(item.id); // ✅ remove item when quantity is 1
+    } else {
+      updateQuantity(item.id, cartItem.quantity - 1);
+    }
+  };
+
   return (
-    <div className="bg-white rounded-xl shadow hover:shadow-lg transition">
+    <div className="bg-white rounded-3xl shadow-md hover:shadow-lg transition overflow-hidden">
       <img
         src={item.image}
         alt={item.name}
-        className="w-full h-60 object-cover rounded-t-xl"
+        className="w-full h-60 object-cover"
       />
 
-      <div className="p-5">
-        <h3 className="text-lg font-semibold">{item.name}</h3>
-        <p className="text-gray-600 text-sm mt-2">
+      <div className="p-4">
+        <h3 className="text-xl font-bold mb-1">{item.name}</h3>
+
+        <p className="text-gray-500 text-sm mb-4">
           {item.description}
         </p>
 
-        <div className="flex justify-between items-center mt-4">
-          <span className="font-bold text-lg text-[#F23827]">
+        <div className="flex items-center justify-between">
+          {/* PRICE */}
+          <span className="text-xl font-bold text-[#F23827]">
             ${item.price}
           </span>
 
-          <button
-            onClick={handleAddToCart}
-            className="bg-[#F23827] text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
-          >
-            Add to Cart
-          </button>
+          {/* CART ACTION */}
+          {!cartItem ? (
+            <button
+              onClick={handleAdd}
+              className="bg-[#F23827] text-white px-4 py-2 rounded-3xl text-sm font-semibold hover:bg-red-600 transition"
+            >
+              Add to cart
+            </button>
+          ) : (
+            <div className="flex items-center bg-[#ff6a00] text-white rounded-full px-4 py-1 gap-4">
+              <button
+                onClick={handleDecrease}
+                className="text-xl font-bold"
+              >
+                −
+              </button>
+
+              <span className="font-semibold">
+                {cartItem.quantity}
+              </span>
+
+              <button
+                onClick={handleIncrease}
+                className="text-xl font-bold"
+              >
+                +
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

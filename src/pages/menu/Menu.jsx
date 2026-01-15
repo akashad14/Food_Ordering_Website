@@ -5,7 +5,7 @@ const categories = ["All Items", "Burgers", "Pizza", "Salads", "Drinks", "Desser
 
 const menuItems = [
   {
-    id: 1,
+    id: 101,
     name: "Classic Burger",
     description: "Juicy beef patty with lettuce, tomato, and special sauce",
     price: "12.99",
@@ -13,7 +13,7 @@ const menuItems = [
     image: "/menupage/burger2.1.png",
   },
   {
-    id: 2,
+    id: 102,
     name: "Bacon Cheeseburger",
     description: "Double patty with crispy bacon and melted cheddar",
     price: "14.99",
@@ -21,7 +21,7 @@ const menuItems = [
     image: "/menupage/burger.png",
   },
   {
-    id: 3,
+    id: 103,
     name: "Margherita Pizza",
     description: "Fresh mozzarella, basil, and tomato sauce",
     price: "13.99",
@@ -29,7 +29,7 @@ const menuItems = [
     image: "/menupage/pizza.png",
   },
    {
-    id: 4,
+    id: 104,
     name: "Pepperoni Pizza",
     description: "Classic pizza loaded with pepperoni and cheese",
     price: "14.99",
@@ -37,7 +37,7 @@ const menuItems = [
     image: "/menupage/pizza2.jpg",
   },
   {
-    id: 5,
+    id: 105,
     name: "Caesar Salad",
     description: "Crisp romaine with parmesan and creamy dressing",
     price: "10.99",
@@ -45,7 +45,7 @@ const menuItems = [
     image: "/menupage/salad.png",
   },
   {
-    id: 6,
+    id: 106,
     name: "Greek Salad",
     description: "Fresh vegetables with feta cheese and olives",
     price: "11.99",
@@ -53,7 +53,7 @@ const menuItems = [
     image: "/menupage/salad1.1.png",
   },
     {
-    id: 7,
+    id: 107,
     name: "Fresh Orange Juice",
     description: "Freshly squeezed orange juice",
     price: "4.99",
@@ -61,7 +61,7 @@ const menuItems = [
     image: "/menupage/juice.png",
   },
   {
-    id: 8,
+    id: 108,
     name: "Iced Coffee",
     description: "Smooth cold brew with ice",
     price: "5.99",
@@ -69,7 +69,7 @@ const menuItems = [
     image: "/menupage/coffe.png",
   },
   {
-    id: 9,
+    id: 109,
     name: "Chocolate Cake",
     description: "Rich and moist chocolate layer cake",
     price: "7.99",
@@ -77,7 +77,7 @@ const menuItems = [
     image: "/menupage/cake.png",
   },
   {
-    id: 10,
+    id: 110,
     name: "Cheesecake",
     description: "Creamy NY style cheesecake",
     price: "8.99",
